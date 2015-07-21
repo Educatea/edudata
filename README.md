@@ -46,7 +46,9 @@ Edudata::Benchmarks.add('MEASUREMENT-TAG-NAME', [ARRAY-OF-VALUES], "UNITS")
 Or you could use our Timer to track times:
 
 ```ruby
-Edudata::Benchmarks.add('MEASUREMENT-TAG-NAME', [ARRAY-OF-VALUES], "UNITS")
+c = Edudata::Benchmarks::Timer.new
+# Your code 
+c.end('MY-TAG')
 ``` 
 
 ## Example
