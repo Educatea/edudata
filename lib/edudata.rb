@@ -17,11 +17,11 @@ module Edudata
     @token    
   end
 
-  # extend self
+  extend self
 
-  # def measurements
-  #   @measurements || = []
-  # end
+  def measurements
+    @measurements || = []
+  end
 
   # def find_by_name(name)
   #   self.measurements.each do |measurement|
