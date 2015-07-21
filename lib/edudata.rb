@@ -23,14 +23,14 @@ module Edudata
     @measurements ||=[]
   end
 
-  # def find_by_name(name)
-  #   self.measurements.each do |measurement|
-  #     if measurement.name == name
-  #       return measurement
-  #     end
-  #   end
-  #   []
-  # end
+  def find_by_name(name)
+    self.measurements.each do |measurement|
+      if measurement.name == name
+        return measurement
+      end
+    end
+    []
+  end
 
   # def clear(token = nil, host_name = '')
 
@@ -72,18 +72,18 @@ module Edudata
   #   @measurements = []
   # end
 
-  # def add(name, values, unit = '')
-  #   if !@measurements || @measurements.empty?
-  #     @measurements = []
-  #   end
-  #   old_benchmark = Benchmarks.find_by_name(name)
-  #   if old_benchmark.class == Array
-  #     @measurements.push(Benchmark.new(name, values, unit))
-  #   else
-  #     old_benchmark.values = old_benchmark.values + values
-  #     old_benchmark.new_values
-  #   end
-  # end
+  def add(name, values, unit = '')
+    if !@measurements || @measurements.empty?
+      @measurements = []
+    end
+    old_benchmark = Benchmarks.find_by_name(name)
+    if old_benchmark.class == Array
+      @measurements.push(Benchmark.new(name, values, unit))
+    else
+      old_benchmark.values = old_benchmark.values + values
+      old_benchmark.new_values
+    end
+  end
 
   class Benchmark
 
