@@ -20,7 +20,7 @@ module Edudata
   extend self
 
   def measurements
-    @measurements || = []
+    @measurements ||=[]
   end
 
   # def find_by_name(name)
