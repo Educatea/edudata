@@ -6,6 +6,7 @@ require 'ostruct'
 require 'active_support/core_ext/hash'
 
 module Edudata
+  
   module Benchmarks
 
   def self.set_token(token = ENV['EDU-TOKEN'])
