@@ -58,16 +58,14 @@ module Edudata
         values = [values]
       end
 
-      # uri = URI.parse("http://data.educatea.com.ar/api/v1/measurements")
-      # http = Net::HTTP.new(uri.host, uri.port)
-      # http.use_ssl = false
-      # request = Net::HTTP::Post.new(uri.request_uri)
-      # request.set_form_data({"values" => "#{values}", "token" => token, "tag" => tag, "host" => host_name, "unit" => unit})
-      # response = http.request(request)
-      # response = JSON.parse(response.body)
+      uri = URI.parse("http://data.educatea.com.ar/api/v1/measurements")
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = false
+      request = Net::HTTP::Post.new(uri.request_uri)
+      request.set_form_data({"values" => "#{values}", "token" => token, "tag" => tag, "host" => host_name, "unit" => unit})
+      response = http.request(request)
+      response = JSON.parse(response.body)
       
-      puts "Values: #{values}.\nToken: #{token}.\nTag: #{tag}.\nHost: #{host_name}.\nUnit: #{unit}"
-
     end
 
     @measurements = []
