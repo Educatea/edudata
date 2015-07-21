@@ -64,8 +64,6 @@ module Edudata
       request = Net::HTTP::Post.new(uri.request_uri)
       request.set_form_data({"values" => "#{values}", "token" => token, "tag" => tag, "host" => host_name, "unit" => unit})
       response = http.request(request)
-      response = JSON.parse(response.body)
-      
     end
 
     @measurements = []
