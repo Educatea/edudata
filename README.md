@@ -78,16 +78,7 @@ Edudata::Benchmarks.add('ShoppingCart', [260], '$')
 Edudata::Benchmarks.measurements   
 # => [#<Edudata::Benchmarks::Benchmark:0x0000000296b3b8 @name="ShoppingCart", @values=[260, 20, 15, 12], @unit="$", @max=260, @min=12, @average=76.75>]  
   
-# As you can see, benchmarks with same name are group together. You can even show this values for development purposes
-
-<% if Rails.env.development? && Edudata::Benchmarks.measurements %>
-    <div id="benchmarks" onclick="$('#benchmarks').hide()">
-      <strong>EduData:</strong><br>
-      <% Edudata::Benchmarks.measurements.each do |measurement| %>
-        <%= measurement.name %>: <%= measurement.average.round(3) %><%= measurement.unit %> <%= measurement.max != measurement.min ? "(#{measurement.max}/#{measurement.min})" : "" %><br>
-      <% end %>
-    </div>
-<% end %>  
+# As you can see, benchmarks with same name are group together.
   
 # To track time events, we created a special Timer object. Start the timer by creating an instance:
 my_awesome_timer = Edudata::Benchmarks::Timer.new   
