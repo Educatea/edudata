@@ -32,6 +32,10 @@ module Edudata
     []
   end
 
+  def destroy
+    @measurements = []
+  end
+
   def clear(host_name = '')
 
     if ENV['HOST-NAME']

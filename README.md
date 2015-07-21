@@ -14,14 +14,16 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install edudata
-
 Now you will need to create an account at [EduData](http://data.educatea.com.ar) and get a token. Once you have your token, we recommend you add it as an environment variable or at least in your application.rb:
 
 ```ruby
 ENV['EDU-TOKEN'] = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+``` 
+
+Alternatively you can set the token:
+
+```ruby
+Edudata::Benchmarks.set_token('XXXXXXXXXXXXXXXXXXX')
 ``` 
   
  You can also specify a hostname:
@@ -34,7 +36,97 @@ ENV['HOST-NAME'] = 'MyAwesomeServer'
 
 ## Usage
 
-To start using it 
+To start using it you can track a specific event:
+
+```ruby
+Edudata::Benchmarks.add('MEASUREMENT-TAG-NAME', [ARRAY-OF-VALUES], "UNITS")
+``` 
+  The second parameter must always be an array of integers or floats, even if you have just one value. The units are optional.
+
+Or you could use our Timer to track times:
+
+```ruby
+Edudata::Benchmarks.add('MEASUREMENT-TAG-NAME', [ARRAY-OF-VALUES], "UNITS")
+``` 
+
+## Example
+
+```ruby
+# First let's set the token:    
+ENV['EDU-TOKEN'] = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'  
+
+# Or:    
+Edudata::Benchmarks.set_token('XXXXXXXXXXXXXXXXXXX')   
+
+# Let's see if it was set correctly:   
+Edudata::Benchmarks.show_token
+# => 'XXXXXXXXXXXXXXXXXXX'
+    
+# You can now check if there are any measurements pending to be sent:    
+Edudata::Benchmarks.measurements   
+# => []
+    
+# You can now easily create a measurement for a purchase in your site
+Edudata::Benchmarks.add('ShoppingCart', [20, 15, 12], '$')
+   
+# And another one 
+Edudata::Benchmarks.add('ShoppingCart', [260], '$')
+   
+# Now our Edudata::Benchmarks.measurements array will contain a Benchmark object 
+Edudata::Benchmarks.measurements   
+# => [#<Edudata::Benchmarks::Benchmark:0x0000000296b3b8 @name="ShoppingCart", @values=[260, 20, 15, 12], @unit="$", @max=260, @min=12, @average=76.75>]  
+  
+# As you can see, benchmarks with same name are group together. You can even show this values for development purposes
+
+<% if Rails.env.development? && Edudata::Benchmarks.measurements %>
+    <div id="benchmarks" onclick="$('#benchmarks').hide()">
+      <strong>EduData:</strong><br>
+      <% Edudata::Benchmarks.measurements.each do |measurement| %>
+        <%= measurement.name %>: <%= measurement.average.round(3) %><%= measurement.unit %> <%= measurement.max != measurement.min ? "(#{measurement.max}/#{measurement.min})" : "" %><br>
+      <% end %>
+    </div>
+<% end %>  
+  
+# To track time events, we created a special Timer object. Start the timer by creating an instance:
+my_awesome_timer = Edudata::Benchmarks::Timer.new   
+# Your awesome code goeas here...  
+my_awesome_timer.end('AwesomeController')  
+# With the end method you can give the timer a name.
+
+```
+## Send the data
+So we have a bunch of measurements in our Edudata::Benchmarks.measurements array. How do we send all this to EduData? Easy.
+
+```ruby
+Edudata::Benchmarks.clear('OPTIONAL-HOST-NAME')
+``` 
+
+That's it. That will clear the array and send everything to EduData. Take into account that the priority for the host name is: 
+  
+  ENV['HOST-NAME'] > 'OPTIONAL-HOST-NAME' > Detected hostname    
+
+To clear the array withour sending any data to EduData:
+
+```ruby
+Edudata::Benchmarks.destroy
+``` 
+
+## Benchmark my controllers
+ You can easily use the Timer object to benchmark your controllers. Add to your application_controller.rb:
+
+```ruby
+before_action :start_benchmark  
+
+def start_benchmark
+	@controller_benchmark = Edudata::Benchmarks::Timer.new
+end  
+  
+def render *args
+	@controller_benchmark.end("#{params[:controller]}##{params[:action]}") # Give it the name you want!
+	super
+end
+``` 
+
 
 ## Development
 
