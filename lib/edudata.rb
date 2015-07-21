@@ -32,45 +32,46 @@ module Edudata
     []
   end
 
-  # def clear(token = nil, host_name = '')
+  def clear(host_name = '')
 
-  #   if ENV['HOST-NAME']
-  #     host_name = ENV['HOST-NAME']
-  #   else
-  #     if host_name.empty?
-  #       host_name = Socket.gethostname
-  #     end
-  #   end
+    if ENV['HOST-NAME']
+      host_name = ENV['HOST-NAME']
+    else
+      if host_name.empty?
+        host_name = Socket.gethostname
+      end
+    end
 
-  #   self.measurements.each do |measurement|
-  #     values = measurement.values
+    self.measurements.each do |measurement|
+      values = measurement.values
       
-  #     if token
-  #     	self.set_token(token)
-  #     else
-  #     	self.set_token
-  #     end
+      if self.token && !self.token.empty?
+      	token = self.token
+      else
+      	token = ENV['EDU-TOKEN']
+      end
       
-  #     tag = measurement.name
-  #     unit = measurement.unit
+      tag = measurement.name
+      unit = measurement.unit
 
-  #     if values.class != Array
-  #       values = [values]
-  #     end
+      if values.class != Array
+        values = [values]
+      end
 
-  #     uri = URI.parse("http://data.educatea.com.ar/api/v1/measurements")
-  #     http = Net::HTTP.new(uri.host, uri.port)
-  #     http.use_ssl = false
-  #     request = Net::HTTP::Post.new(uri.request_uri)
-  #     request.set_form_data({"values" => "#{values}", "token" => self.token, "tag" => tag, "host" => host_name, "unit" => unit})
-  #     response = http.request(request)
-  #     response = JSON.parse(response.body)
-  #     puts {"values" => "#{values}", "token" => self.token, "tag" => tag, "host" => host_name, "unit" => unit}
+      # uri = URI.parse("http://data.educatea.com.ar/api/v1/measurements")
+      # http = Net::HTTP.new(uri.host, uri.port)
+      # http.use_ssl = false
+      # request = Net::HTTP::Post.new(uri.request_uri)
+      # request.set_form_data({"values" => "#{values}", "token" => token, "tag" => tag, "host" => host_name, "unit" => unit})
+      # response = http.request(request)
+      # response = JSON.parse(response.body)
+      
+      puts "Values: #{values}.\nToken: #{token}.\nTag: #{tag}.\nHost: #{host_name}.\nUnit: #{unit}"
 
-  #   end
+    end
 
-  #   @measurements = []
-  # end
+    @measurements = []
+  end
 
   def add(name, values, unit = '')
     if !@measurements || @measurements.empty?
