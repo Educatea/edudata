@@ -7,7 +7,7 @@ This gem allows an easy communication with [EduData](http://data.educatea.com.ar
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'edudata', github: 'juangesino/edudata'
+gem 'edudata', github: 'Educatea/edudata'
 ```
 
 And then execute:
@@ -133,7 +133,7 @@ Created by [Juan Gesino](https://github.com/juangesino) for [Educatea](http://ed
 
 ## Contributing
 
-1. Fork it ( https://github.com/juangesino/edudata/fork )
+1. Fork it ( https://github.com/Educatea/edudata/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
